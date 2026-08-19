@@ -3,6 +3,7 @@ import turtle
 from Paddles import Paddle1, Paddle2
 from scoreboard import Scoreboard
 from ball import Ball
+from tkinter import messagebox
 
 Ball = Ball()
 
@@ -25,16 +26,21 @@ turtle.onkeypress(paddle1.move_down, "s")
 paddle2 = Paddle2()
 turtle.onkeypress(paddle2.move_up, "Up")
 turtle.onkeypress(paddle2.move_down, "Down")
-turtle.onkeypress(quit, "h")
+
 
 
 def reset(): 
     Ball.ball_speed = 0.07 # type: ignore
     Ball.reset_pos() # type: ignore
 
-def quit():
-    global game_on
-    game_on = False
+def quit_game():
+    answer = messagebox.askyesno("Quit Game", "Are you sure you want to quit?")
+    if answer:
+        global game_on
+        game_on = False 
+        screen.bye()
+
+screen.onkeypress(quit_game, "h")
 
 while game_on:
     time.sleep(Ball.ball_speed)
@@ -63,4 +69,3 @@ while game_on:
         scoreboard.update_score2()
     screen.update()
 
-turtle.done()
